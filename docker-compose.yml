@@ -1,0 +1,79 @@
+version: '3.7'
+
+services:
+    guacamole-initbot:
+        image: guacamole/guacamole
+        container_name: guacamole-initbot
+        user: root
+        command: >
+          /bin/bash -c "test -e /templates/database/initdb.sql && echo 'init file already exists' || /opt/guacamole/bin/initdb.sh --postgresql > /templates/database/initdb.sql; openssl req -nodes -newkey rsa:2048 -new -x509 -keyout /templates/ssl/self-ssl.key -out /templates/ssl/self.cert -subj '/C=DE/ST=BY/L=Hintertupfing/O=Dorfwirt/OU=Theke/CN=www.createyourown.domain/emailAddress=docker@createyourown.domain'"
+        volumes:
+            - ./templates/database:/templates/database:rw
+            - ./templates/ssl:/templates/ssl:rw
+
+    guacamole:
+        image: guacamole/guacamole
+        container_name: guacamole
+        networks:
+            - guacamole_network
+        ports:
+            - 8080/tcp
+        depends_on:
+            - guacamole-initbot
+            - guacamole-deamon
+            - guacamole-db
+        restart: unless-stopped
+        env_file:
+            - .env
+    guacamole-deamon:
+        image: guacamole/guacd
+        container_name: guacamole-deamon
+        volumes:
+            - ./Data/Deamon/drive:/drive:rw
+            - ./Data/Deamon/record:/record:rw
+        networks:
+            - guacamole_network
+        restart: unless-stopped
+
+    guacamole-db:
+        image: postgres:15.2-alpine
+        container_name: guacamole-db
+        volumes:
+            - ./templates/database:/docker-entrypoint-initdb.d:ro
+            - ./Data/Database/data:/var/lib/postgresql/data:rw
+        env_file:
+            - .env
+        networks:
+            - guacamole_network
+        depends_on:
+            - guacamole-initbot
+        restart: unless-stopped
+
+    guacamole-wps:
+        image: nginx:1.21.6
+        container_name: guacamole-wps
+        volumes:
+            - ./templates/nginx:/etc/nginx/templates:ro
+            - ./templates/ssl:/etc/nginx/ssl:ro
+            - ./Data/SSL/certbot/letsencrypt:/etc/letsencrypt:ro
+            - ./Data/WEBROOT:/usr/share/nginx/html:rw
+        networks:
+            - guacamole_network
+        ports:
+            - 80:80
+            - 443:443
+        restart: unless-stopped
+
+    guacamole-certbot:
+        container_name: guacamole-certbot
+        image: certbot/certbot:v1.27.0
+        volumes:
+            - ./Data/SSL/certbot/letsencrypt:/etc/letsencrypt:rw
+            - ./Data/SSL/certbot/log:/var/log/letsencrypt:rw
+            - ./Data/WEBROOT:/var/www/certbot:rw
+        command: certonly --webroot --webroot-path=/var/www/certbot --email <Your Email> --agree-tos --no-eff-email --force-renewal -d <Your Domain>
+        restart: 'no'
+
+networks:
+    guacamole_network:
+        driver: bridge
