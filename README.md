@@ -1,4 +1,4 @@
-# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fatik.monster%2Fguacamole)
+# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fatik.monster%2Fgit%2Fguacamole)
 The repository provides documentation on how to conveniently configure the Apache Guacamole environment. It uses the default values of ports 80 and 443, automatically redirecting from HTTP to HTTPS. Additionally, it offers an automated certificate issuance container for easy deployment, particularly for production setups.
 
 <br><br>
