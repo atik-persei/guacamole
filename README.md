@@ -1,4 +1,4 @@
-# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Fatik.monster%2Fgit%2Fguacamole)
+# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fatik-persei.appspot.com%2Fo%2Fguacamole.html%3Falt%3Dmedia%26token%3Dc1d79320-3e13-4f95-b7de-797fa422c229)
 The repository provides documentation on how to conveniently configure the Apache Guacamole environment. It uses the default values of ports 80 and 443, automatically redirecting from HTTP to HTTPS. Additionally, it offers an automated certificate issuance container for easy deployment, particularly for production setups.
 
 <br><br>
@@ -19,7 +19,7 @@ git clone https://github.com/atik-persei/guacamole
 cd guacamole
 
 echo 'PGDATA=/var/lib/postgresql/data/guacamole
-GUACD_HOSTNAME=guacamole-Daemon
+GUACD_HOSTNAME=guacamole-daemon
 POSTGRES_HOSTNAME=guacamole-db
 POSTGRES_DATABASE=guacamole_db
 POSTGRES_DB=guacamole_db
@@ -56,7 +56,7 @@ PW : guacadmin
 A collection of data used for Guacamole environment configuration. Stored in the .env file, it includes configuration for data storage paths, internal domain for communication, database name, and user information.
 ```
 PGDATA=/var/lib/postgresql/data/guacamole
-GUACD_HOSTNAME=guacamole-Daemon
+GUACD_HOSTNAME=guacamole-daemon
 POSTGRES_HOSTNAME=guacamole-db
 POSTGRES_DATABASE=guacamole_db
 POSTGRES_DB=guacamole_db
@@ -89,9 +89,9 @@ guacamole-initbot:
 **Daemon**<br>
 This container performs the core functions of Guacamole. It communicates with the Guacamole web service to carry out protocol handling, remote connections, authentication, and more.
 ```yaml
-guacamole-Daemon:
+guacamole-daemon:
     image: guacamole/guacd
-    container_name: guacamole-Daemon
+    container_name: guacamole-daemon
     volumes:
         - ./Data/Daemon/drive:/drive:rw
         - ./Data/Daemon/record:/record:rw
@@ -114,7 +114,7 @@ guacamole:
         - 8080/tcp
     depends_on:
         - guacamole-initbot
-        - guacamole-Daemon
+        - guacamole-daemon
         - guacamole-db
     restart: unless-stopped
     env_file:
@@ -246,7 +246,7 @@ For Windows, you can use the Task Scheduler, and for Linux, you can use the cron
 ## 📃 Multilingual Document
 We are translating documents into various languages for users. Currently, we support only two languages.
 <p align="center">
-  <a href="https://github.com/atik-persei/guacamole">한국어</a>
-   · 
-  <a href="/docs/README_en.md">English</a>
+    <a href="https://github.com/atik-persei/guacamole">English</a>
+    · 
+    <a href="/docs/README_kr.md">한국어</a>
 </p>
