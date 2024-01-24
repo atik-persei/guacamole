@@ -1,19 +1,19 @@
 # Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fatik-persei.appspot.com%2Fo%2Fguacamole.html%3Falt%3Dmedia%26token%3Dc8cbeaf0-72a6-4313-b638-95caa97d5107)
-The repository provides documentation on how to conveniently configure the Apache Guacamole environment. It uses the default values of ports 80 and 443, automatically redirecting from HTTP to HTTPS. Additionally, it offers an automated certificate issuance container for easy deployment, particularly for production setups.
+해당 레포지토리는 Apache Guacamole 환경을 편리하게 구성하는 방법에 대해 제공합니다. 80, 443 포트를 기본 값으로 사용하며, HTTP에서 HTTPS로의 자동 리다이렉션을 제공합니다. 더불어 프로덕션 설정에 대한 쉬운 배포를 위해 자동 인증서 발급 컨테이너를 제공합니다. 
 
 <br><br>
 
 ## 📃 Environment Configuration
 ### Requirements
-The following items are required for environment configuration.
+환경 구성에는 다음과 같은 패키지가 필요합니다.
 - docker
 - docker-compose
 <br><br>
 
 
-### Quick Start
-**Step 1 - Clone Repository and Installation**<br>
-Clone the repository, configure environment variables, and install Guacamole.
+### 빠른 시작
+**Step 1 - 저장소 복제 및 설치**<br>
+저장소를 복제하고, 환경변수를 구성한 후 Guacamole를 설치하세요.
 ```bash
 git clone https://github.com/atik-persei/guacamole
 cd guacamole
@@ -31,16 +31,16 @@ docker-compose up -d
 
 <br>
 
-**Step 2 - Encryption Configuration**<br>
-Set up SSL for encrypted communication.
+**Step 2 - 암호화 구성**<br>
+암호화 통신을 위해 SSL을 설정하세요.
 ```bash
 ./ssl_self.sh
 ```
 
 <br>
 
-**Step 3 - Using Guacamole**<br>
-Now you can start using the Guacamole server.
+**Step 3 - Guacamole 사용**<br>
+이제 Guacamole를 다음의 계정으로 사용하시면 됩니다.
 ```
 https://server ip or your ip
 
@@ -53,7 +53,7 @@ PW : guacadmin
 
 ## Details
 ### Environment Variables
-A collection of data used for Guacamole environment configuration. Stored in the .env file, it includes configuration for data storage paths, internal domain for communication, database name, and user information.
+다음은 Guacamole 환경 구성에 사용되는 환경변수입니다. .env 파일에 저장되며, 데이터 저장 경로, 통신을 위한 내부 도메인, 데이터베이스 이름 및 사용자 정보를 구성하는데 사용됩니다.
 ```
 PGDATA=/var/lib/postgresql/data/guacamole
 GUACD_HOSTNAME=guacamole-daemon
@@ -68,9 +68,9 @@ POSTGRES_PASSWORD=<Your Password>
 
 ### Service<br>
 **Init Bot**<br>
-This container handles the generation of SQL and SSL certificates necessary for Guacamole environment configuration. It skips the process if the SQL file already exists.
+Guacamole 환경 구성에 필요한 SQL 및 SSL 인증서를 생성합니다. 이미 SQL 파일이 존재하는 경우 해당 프로세스를 건너뜁니다.
 <br>
-The issued SSL certificate is not suitable for production deployment and is intended for testing purposes only. Please refer to the [Certificates](#Certificates) section for more information.
+발급된 SSL 인증서는 프로덕션 배포에 적합하지 않으며, 테스트 목적으로 사용되는 인증서입니다. 자세한 내용은 [Certificates](#Certificates) 섹션을 참고하세요.
 
 ```yaml
 guacamole-initbot:
@@ -87,7 +87,7 @@ guacamole-initbot:
 <br>
 
 **Daemon**<br>
-This container performs the core functions of Guacamole. It communicates with the Guacamole web service to carry out protocol handling, remote connections, authentication, and more.
+Guacamole 핵심 기능을 수행하는 컨테이너입니다. 프로토컬 처리, 원격 연결, 인증 등을 수행하기 위해 Guacamole 웹 서비스와 통신합니다.
 ```yaml
 guacamole-daemon:
     image: guacamole/guacd
@@ -103,7 +103,7 @@ guacamole-daemon:
 <br>
 
 **Guacamole**<br>
-This container is responsible for Guacamole's web interface. It handles displaying the user interface and operates on the internal port 8080 for configuration.
+Guacamole의 웹 인터페이스를 담당합니다. 사용자 인터페이스를 표시하고, 8080 내부 포트를 통해 동작합니다.
 ```yaml
 guacamole:
     image: guacamole/guacamole
@@ -124,7 +124,7 @@ guacamole:
 <br>
 
 **Database**<br>
-This container handles user authentication and remote session logging for Guacamole usage. Guacamole supports MySQL and PostgreSQL databases, and this project utilizes PostgreSQL version 15.
+Guacamole 사용을 위한 사용자 인증, 원격 세션 로깅을 처리합니다. Guacamole가 지원하는 데이터베이스는 MySQL과 PostgresSQL입니다. 해당 프로젝트에서는 PostrgresSQL 15 버전을 사용합니다.
 ```yaml
 guacamole-db:
     image: postgres:15.2-alpine
@@ -144,7 +144,7 @@ guacamole-db:
 <br>
 
 **Nginx**<br>
-The web proxy container utilizes Nginx to perform port mapping from external ports 80 and 443 to internal port 8080, directing traffic to the internal server.
+웹 프록시 역할을 수행하며, Nginx를 활용해 80 및 443 외부 포트와 8080 내부 포트의 포트 매핑을 수행하여 트래픽을 내부 서버로 전달합니다.
 ```yaml
 guacamole-wps:
     image: nginx:1.21.6
@@ -165,7 +165,7 @@ guacamole-wps:
 <br>
 
 **Cert Bot**<br>
-This container is used for issuing valid CA certificates for production deployment. The issued certificates are stored in /Data/SSL/certbot/letsencrypt.
+프로덕션 배포를 위해 유효한 CA 인증서를 발급하는데 사용됩니다. 발급된 인증서는 /Data/SSL/certbot/letsencrypt에 저장됩니다.
 ```yaml
 guacamole-certbot:
     container_name: guacamole-certbot
@@ -183,15 +183,15 @@ guacamole-certbot:
 
 ## 📃 Reference
 ### Certificates
-SSL certificates can be configured to use either self-signed certificates or certificates issued by Let's Encrypt.
-- Self-signed certificate path : /templates/ssl:/templates/ssl
-- CA certificate path : /Data/SSL/certbot/letsencrypt:/etc/letsencrypt
+SSL 인증서는 자체 서명된 인증서 또는 Let's Encrypt에서 발급한 인증서 중 하나를 선택하여 구성할 수 있습니다.
+- Self-signed 인증서 경로 : /templates/ssl:/templates/ssl
+- CA 인증서 경로 : /Data/SSL/certbot/letsencrypt:/etc/letsencrypt
 
 <br>
 
 **Configuration Item**<br>
-In the case of using a CA certificate, you need to modify the following items.<br>
-Update `<Your Email>` and `<Your Domain>` in the certificate issuance section of the `/docker-compose.yml` file.
+CA 인증서를 사용하는 경우 다음의 항목을 수정해야 합니다.<br>
+`/docker-compose.yml` 파일의 인증서 발급 부분에서 `<Your Email>` 및 `<Your Domain>` 부분을 업데이트하세요.
 
 ```yaml
 guacamole-certbot:
@@ -207,7 +207,7 @@ guacamole-certbot:
 
 <br>
 
-Modify `<Your Domain>` in the `/templates/nginx/default_ssl_certbot.conf` file.
+그 다음 `/templates/nginx/default_ssl_certbot.conf` 파일에서  `<Your Domain>`을 수정하세요.
 
 ```conf
 server {
@@ -222,15 +222,15 @@ server {
 
 <br>
 
-CA certificates need to be renewed periodically every 3 months.
+CA 인증서는 3개월마다 주기적으로 갱신해야합니다.
 <br>
-Certificate renewal can be achieved by rebooting the Guacamole-certbot container.
+Guacamole-certbot 컨테이너를 재시작함으로써 인증서 갱신이 가능합니다.
 
 ```bash
 docker restart guacamole-certbot
 ```
 
-For Windows, you can use the Task Scheduler, and for Linux, you can use the crontab scheduler to achieve periodic certificate renewal.
+Windows에서는 작업 스케줄러를, Linux에서는 crontab 스케줄러를 사용해 주기적으로 인증서 갱신이 가능합니다.
 
 
 
@@ -244,7 +244,7 @@ For Windows, you can use the Task Scheduler, and for Linux, you can use the cron
 <br><br>
 
 ## 📃 Multilingual Document
-We are translating documents into various languages for users. Currently, we support only two languages.
+현재 사용자를 위해 문서를 다양한 언어로 번역하고 있습니다. 현재로써는 두 가지 언어만 지원하고 있습니다.
 <p align="center">
     <a href="https://github.com/atik-persei/guacamole">English</a>
     · 
