@@ -1,4 +1,4 @@
-# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fatik-persei.appspot.com%2Fo%2Fguacamole.html%3Falt%3Dmedia%26token%3Dc1d79320-3e13-4f95-b7de-797fa422c229)
+# Guacamole ![Endpoint Badge](https://img.shields.io/endpoint?url=https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Fatik-persei.appspot.com%2Fo%2Fguacamole.html%3Falt%3Dmedia%26token%3Dc8cbeaf0-72a6-4313-b638-95caa97d5107)
 해당 레포지토리는 Apache Guacamole 환경을 편리하게 구성하는 방법에 대해 제공합니다. 80, 443 포트를 기본 값으로 사용하며, HTTP에서 HTTPS로의 자동 리다이렉션을 제공합니다. 더불어 프로덕션 설정에 대한 쉬운 배포를 위해 자동 인증서 발급 컨테이너를 제공합니다. 
 
 <br><br>
