@@ -20,17 +20,17 @@ services:
             - 8080/tcp
         depends_on:
             - guacamole-initbot
-            - guacamole-deamon
+            - guacamole-daemon
             - guacamole-db
         restart: unless-stopped
         env_file:
             - .env
-    guacamole-deamon:
+    guacamole-daemon:
         image: guacamole/guacd
-        container_name: guacamole-deamon
+        container_name: guacamole-daemon
         volumes:
-            - ./Data/Deamon/drive:/drive:rw
-            - ./Data/Deamon/record:/record:rw
+            - ./Data/Daemon/drive:/drive:rw
+            - ./Data/Daemon/record:/record:rw
         networks:
             - guacamole_network
         restart: unless-stopped
